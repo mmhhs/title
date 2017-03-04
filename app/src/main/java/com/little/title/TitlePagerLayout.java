@@ -3,6 +3,7 @@ package com.little.title;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -47,7 +48,7 @@ public class TitlePagerLayout extends LinearLayout {
     private void init(){
         defaultLayoutParams = new LayoutParams(
                 LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
-        defaultLayoutParams.gravity = Gravity.CENTER_VERTICAL;
+        defaultLayoutParams.gravity = Gravity.CENTER;
         if (mode == TITLE_MODE.WEIGHT||mode == TITLE_MODE.WEIGHT_LINE){
             defaultLayoutParams.weight = 1;
         }
@@ -92,13 +93,16 @@ public class TitlePagerLayout extends LinearLayout {
             textView.setLineSpacing(DensityUtil.dip2px(context, 2),1);
         }
         if (mode == TITLE_MODE.CENTER){
+            setGravity(Gravity.CENTER);
             if(titleItem.getWidth()>0){
                 int w = DensityUtil.dip2px(context, titleItem.getWidth());
-                textView.setWidth(w);
+//                textView.setWidth(w);
+                defaultLayoutParams.width = w;
             }
             if(titleItem.getHeight()>0){
                 int h = DensityUtil.dip2px(context, titleItem.getHeight());
-                textView.setHeight(h);
+//                textView.setHeight(h);
+                defaultLayoutParams.height = h;
             }
         }
         textView.setLayoutParams(defaultLayoutParams);
@@ -117,6 +121,7 @@ public class TitlePagerLayout extends LinearLayout {
         });
         textViewList.add(textView);
         addView(textView);
+        Log.e("TitlePagerLayout", "getWidth= " + textView.getLayoutParams().width);
         if (mode == TITLE_MODE.WEIGHT_LINE){
             if (position!=(titleItemList.size()-1)){
                 View lineView = LinearLayout.inflate(context, R.layout.title_include_line,null);
